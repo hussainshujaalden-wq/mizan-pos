@@ -1,6 +1,7 @@
 generator client {
   provider = "prisma-client-js"
 }
+
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
@@ -18,7 +19,8 @@ model Company {
   created_at DateTime  @default(now())
   updated_at DateTime  @updatedAt
   deleted_at DateTime?
-  branches   Branch[]
+
+  branches Branch[]
 
   @@map("companies")
 }
@@ -63,11 +65,11 @@ model Currency {
   updated_at    DateTime  @updatedAt
   deleted_at    DateTime?
 
-  sales           Sale[]
-  sale_payments   SalePayment[]
-  purchases       Purchase[]
-  expenses        Expense[]
-  cash_registers  CashRegister[]
+  sales          Sale[]
+  sale_payments  SalePayment[]
+  purchases      Purchase[]
+  expenses       Expense[]
+  cash_registers CashRegister[]
 
   @@map("currencies")
 }
@@ -93,6 +95,7 @@ enum UserRole {
   manager
   cashier
   accountant
+  inventory_manager
 }
 
 model User {
@@ -107,12 +110,12 @@ model User {
   updated_at    DateTime  @updatedAt
   deleted_at    DateTime?
 
-  branch        Branch         @relation(fields: [branch_id], references: [id])  
-  shifts        Shift[]
-  sales         Sale[]
-  purchases     Purchase[]
-  expenses      Expense[]
-  stock_counts  StockCount[]
+  branch       Branch       @relation(fields: [branch_id], references: [id])
+  shifts       Shift[]
+  sales        Sale[]
+  purchases    Purchase[]
+  expenses     Expense[]
+  stock_counts StockCount[]
 
   @@map("users")
 }
@@ -121,7 +124,7 @@ model Shift {
   id              String    @id @default(uuid())
   branch_id       String
   user_id         String
-  opened_at       DateTime
+  opened_at       DateTime  @default(now())
   closed_at       DateTime?
   opening_balance Int
   closing_balance Int?
@@ -198,13 +201,13 @@ model Product {
   updated_at    DateTime  @updatedAt
   deleted_at    DateTime?
 
-  branch          Branch          @relation(fields: [branch_id], references: [id])
-  category        Category?       @relation(fields: [category_id], references: [id])
-  unit            Unit            @relation(fields: [unit_id], references: [id])
-  brand           Brand?          @relation(fields: [brand_id], references: [id])
-  stock_movements StockMovement[]
-  sale_items      SaleItem[]
-  purchase_items  PurchaseItem[]
+  branch            Branch           @relation(fields: [branch_id], references: [id])
+  category          Category?        @relation(fields: [category_id], references: [id])
+  unit              Unit             @relation(fields: [unit_id], references: [id])
+  brand             Brand?           @relation(fields: [brand_id], references: [id])
+  stock_movements   StockMovement[]
+  sale_items        SaleItem[]
+  purchase_items    PurchaseItem[]
   stock_count_items StockCountItem[]
 
   @@map("products")
@@ -299,24 +302,24 @@ enum SaleStatus {
 }
 
 model Sale {
-  id             String     @id @default(uuid())
-  branch_id      String
-  shift_id       String
-  customer_id    String?
-  user_id        String
-  invoice_number String     @unique
-  status         SaleStatus @default(draft)
-  subtotal       Int
-  discount_amount Int       @default(0)
-  tax_amount     Int        @default(0)
-  total          Int
-  paid_amount    Int        @default(0)
-  currency_id    String
-  exchange_rate  Int
-  notes          String?
-  created_at     DateTime   @default(now())
-  updated_at     DateTime   @updatedAt
-  deleted_at     DateTime?
+  id              String     @id @default(uuid())
+  branch_id       String
+  shift_id        String
+  customer_id     String?
+  user_id         String
+  invoice_number  String     @unique
+  status          SaleStatus @default(draft)
+  subtotal        Int
+  discount_amount Int        @default(0)
+  tax_amount      Int        @default(0)
+  total           Int
+  paid_amount     Int        @default(0)
+  currency_id     String
+  exchange_rate   Int
+  notes           String?
+  created_at      DateTime   @default(now())
+  updated_at      DateTime   @updatedAt
+  deleted_at      DateTime?
 
   branch   Branch    @relation(fields: [branch_id], references: [id])
   shift    Shift     @relation(fields: [shift_id], references: [id])
@@ -458,18 +461,18 @@ model CashRegister {
 }
 
 model Expense {
-  id           String    @id @default(uuid())
-  branch_id    String
-  user_id      String
-  category     String
-  amount       Int
-  currency_id  String
+  id            String    @id @default(uuid())
+  branch_id     String
+  user_id       String
+  category      String
+  amount        Int
+  currency_id   String
   exchange_rate Int
-  description  String?
-  expense_date DateTime
-  created_at   DateTime  @default(now())
-  updated_at   DateTime  @updatedAt
-  deleted_at   DateTime?
+  description   String?
+  expense_date  DateTime
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+  deleted_at    DateTime?
 
   branch   Branch   @relation(fields: [branch_id], references: [id])
   user     User     @relation(fields: [user_id], references: [id])
