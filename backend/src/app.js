@@ -1,3 +1,6 @@
+import categoriesRoutes from './modules/products/categories.routes.js';
+import unitsRoutes from './modules/products/units.routes.js';
+import brandsRoutes from './modules/products/brands.routes.js';
 import currenciesRoutes from './modules/core/currencies.routes.js';
 import express from 'express';
 import cors from 'cors';
@@ -39,7 +42,9 @@ app.use('/api/suppliers', suppliersRoutes);
 app.use('/api/finance', financeRoutes);
 app.use('/api/reports', reportsRoutes);
 app.use('/api/currencies', currenciesRoutes);
-
+app.use('/api/categories', categoriesRoutes);
+app.use('/api/units', unitsRoutes);
+app.use('/api/brands', brandsRoutes);
 // 404 handler
 app.use((req, res) => {
   res.status(404).json({ success: false, message: 'Route not found' });
