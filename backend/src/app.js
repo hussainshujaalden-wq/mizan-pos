@@ -1,3 +1,4 @@
+import currenciesRoutes from './modules/core/currencies.routes.js';
 import express from 'express';
 import cors from 'cors';
 import { errorHandler } from './middleware/errorHandler.js';
@@ -13,6 +14,7 @@ import customersRoutes from './modules/customers/customers.routes.js';
 import suppliersRoutes from './modules/suppliers/suppliers.routes.js';
 import financeRoutes from './modules/finance/finance.routes.js';
 import reportsRoutes from './modules/reports/reports.routes.js';
+
 
 const app = express();
 
@@ -36,6 +38,7 @@ app.use('/api/customers', customersRoutes);
 app.use('/api/suppliers', suppliersRoutes);
 app.use('/api/finance', financeRoutes);
 app.use('/api/reports', reportsRoutes);
+app.use('/api/currencies', currenciesRoutes);
 
 // 404 handler
 app.use((req, res) => {

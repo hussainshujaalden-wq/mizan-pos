@@ -42,12 +42,53 @@ async function main() {
     },
   });
   console.log('✅ المستخدم:', admin.username);
-  console.log('');
   console.log('─────────────────────────────');
   console.log('🔑 بيانات الدخول:');
   console.log('   username : admin');
   console.log('   password : admin123');
   console.log('─────────────────────────────');
+
+  // 4. إنشاء العملات الأساسية
+  await prisma.currency.upsert({
+    where: { id: '00000000-0000-0000-0000-000000000010' },
+    update: {},
+    create: {
+      id: '00000000-0000-0000-0000-000000000010',
+      code: 'YER',
+      name: 'ريال يمني',
+      symbol: '﷼',
+      exchange_rate: 1,
+      is_default: true,
+    },
+  });
+
+  await prisma.currency.upsert({
+    where: { id: '00000000-0000-0000-0000-000000000011' },
+    update: {},
+    create: {
+      id: '00000000-0000-0000-0000-000000000011',
+      code: 'USD',
+      name: 'دولار أمريكي',
+      symbol: '$',
+      exchange_rate: 1500,
+      is_default: false,
+    },
+  });
+
+  await prisma.currency.upsert({
+    where: { id: '00000000-0000-0000-0000-000000000012' },
+    update: {},
+    create: {
+      id: '00000000-0000-0000-0000-000000000012',
+      code: 'SAR',
+      name: 'ريال سعودي',
+      symbol: 'SR',
+      exchange_rate: 400,
+      is_default: false,
+    },
+  });
+
+  console.log('✅ العملات: YER, USD, SAR');
 }
 
 main()
